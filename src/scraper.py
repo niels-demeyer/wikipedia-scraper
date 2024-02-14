@@ -33,8 +33,15 @@ class WikipediaScraper:
     def get_first_paragraph(self, wikipedia_url):
         response = requests.get(wikipedia_url)
         soup = BeautifulSoup(response.text, "html.parser")
-        first_paragraph = soup.find("p").text
-        return first_paragraph
+        paragraphs = soup.find_all("p")
+
+        for paragraph in paragraphs:
+            if (
+                len(paragraph.text) > 100
+            ):  # You can adjust this value based on your needs
+                return paragraph.text
+
+        return None
 
     def to_json_file(self, filepath):
         with open(filepath, "w", encoding="utf-8") as json_file:

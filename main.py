@@ -1,19 +1,33 @@
+from concurrent.futures import ThreadPoolExecutor
 from src.scraper import WikipediaScraper
 
 
-# def main():
-#     scraper = WikipediaScraper()
-#     countries = scraper.get_countries()
-
-#     for country in countries:
-#         scraper.get_leaders(country)
-
-#     scraper.to_json_file("leaders_data.json")
+def fetch_leader_data(scraper, leader):
+    leader["wikipedia_first_paragraph"] = scraper.get_first_paragraph(
+        leader["wikipedia_url"]
+    )
+    return leader
 
 
-# if __name__ == "__main__":
-#     main()
+def main():
+    scraper = WikipediaScraper()
+    countries = scraper.get_countries()
+
+    for country in countries:
+        scraper.get_leaders(country)
+
+    # use the wikipedia scraper to get the first paragraph of the wikipedia page for each leader
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        for country, leaders in scraper.leaders_data.items():
+            futures = [
+                executor.submit(fetch_leader_data, scraper, leader)
+                for leader in leaders
+            ]
+            scraper.leaders_data[country] = [future.result() for future in futures]
+
+    # save the results to a json file
+    scraper.to_json_file("leaders.json")
 
 
-countries = WikipediaScraper().get_countries()
-print(len(countries))
+if __name__ == "__main__":
+    main()
