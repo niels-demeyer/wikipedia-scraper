@@ -1,5 +1,6 @@
-import requests
+import re
 from bs4 import BeautifulSoup
+import requests
 import json
 
 
@@ -39,9 +40,18 @@ class WikipediaScraper:
             if (
                 len(paragraph.text) > 100
             ):  # You can adjust this value based on your needs
-                return paragraph.text
+                return self.clean_text(paragraph.text)
 
         return None
+
+    def clean_text(self, text):
+        # Remove pronunciation
+        text = re.sub(r"\(.*?\)", "", text)
+        # Remove dates
+        text = re.sub(r"\b\d{4}\b", "", text)
+        # Remove \"
+        text = re.sub(r"\"", "", text)
+        return text.strip()
 
     def to_json_file(self, filepath):
         with open(filepath, "w", encoding="utf-8") as json_file:
