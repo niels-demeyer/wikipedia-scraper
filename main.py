@@ -27,7 +27,9 @@ def main():
 
     # save the results to a json file
     scraper.to_json_file("leaders.json")
+    scraper.save_to_csv("leaders.csv")
 
 
 if __name__ == "__main__":
     main()
+

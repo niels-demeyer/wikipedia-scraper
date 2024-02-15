@@ -57,3 +57,10 @@ class WikipediaScraper:
     def to_json_file(self, filepath):
         with open(filepath, "w", encoding="utf-8") as json_file:
             json.dump(self.leaders_data, json_file, ensure_ascii=False)
+    
+    def save_to_csv(self, filepath):
+        with open(filepath, "w", encoding="utf-8") as csv_file:
+            csv_file.write("country,id,first_name,last_name,birth_date,death_date,place_of_birth,wikipedia_url,start_mandate,end_mandate,wikipedia_first_paragraph\n")
+            for country, leaders in self.leaders_data.items():
+                for leader in leaders:
+                    csv_file.write(f"{country},{leader['id']},{leader['first_name']},{leader['last_name']},{leader['birth_date']},{leader['death_date']},{leader['place_of_birth']},{leader['wikipedia_url']},{leader['start_mandate']},{leader['end_mandate']},\"{leader['wikipedia_first_paragraph']}\"\n")
