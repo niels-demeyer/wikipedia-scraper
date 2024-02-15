@@ -47,12 +47,15 @@ class WikipediaScraper:
     def clean_text(self, text):
         # Remove pronunciation
         text = re.sub(r"\(.*?\)", "", text)
-        # Remove dates
-        text = re.sub(r"\b\d{4}\b", "", text)
+        # Remove brackets and everything in brackets
+        text = re.sub(r"\[.*?\]", "", text)
         # Remove \"
         text = re.sub(r"\"", "", text)
         # Remove pattern like [1]
         text = re.sub(r'\[\d+\]', '', text)
+        # Remove specific string
+        text = re.sub(r'Écouter\s*—\s*communément appelé\s*«\s*Giscard\s*»\s*ou désigné par ses initiales,\s*«\s*VGE\s*»\s*—,', '', text)
+        
         return text.strip()
 
     def to_json_file(self, filepath):
