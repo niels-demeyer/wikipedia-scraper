@@ -1,8 +1,7 @@
-import re
-from bs4 import BeautifulSoup
 import requests
+from bs4 import BeautifulSoup
+import re
 import json
-
 
 class WikipediaScraper:
     def __init__(self):
@@ -11,28 +10,25 @@ class WikipediaScraper:
         self.leaders_endpoint = "/leaders"
         self.cookies_endpoint = "/cookie"
         self.leaders_data = {}
-        self.cookie = self.refresh_cookie()
+        self.session = requests.Session()
+        self.refresh_cookie()
 
     def refresh_cookie(self):
-        response = requests.get(self.base_url + self.cookies_endpoint)
-        return response.cookies
+        response = self.session.get(self.base_url + self.cookies_endpoint)
 
     def get_countries(self):
-        response = requests.get(
-            self.base_url + self.country_endpoint, cookies=self.cookie
-        )
+        response = self.session.get(self.base_url + self.country_endpoint)
         return response.json()
 
     def get_leaders(self, country):
-        response = requests.get(
+        response = self.session.get(
             self.base_url + self.leaders_endpoint,
             params={"country": country},
-            cookies=self.cookie,
         )
         self.leaders_data[country] = response.json()
 
     def get_first_paragraph(self, wikipedia_url):
-        response = requests.get(wikipedia_url)
+        response = self.session.get(wikipedia_url)
         soup = BeautifulSoup(response.text, "html.parser")
 
         # Exclude paragraphs that are descendants of a div with class "bandeau-cell"
