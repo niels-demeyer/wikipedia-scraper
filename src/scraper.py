@@ -34,12 +34,12 @@ class WikipediaScraper:
     def get_first_paragraph(self, wikipedia_url):
         response = requests.get(wikipedia_url)
         soup = BeautifulSoup(response.text, "html.parser")
-        paragraphs = soup.find_all("p")
+
+        # Exclude paragraphs that are descendants of a div with class "bandeau-cell"
+        paragraphs = [p for p in soup.find_all("p") if not p.find_parent("div", class_="bandeau-cell")]
 
         for paragraph in paragraphs:
-            if (
-                len(paragraph.text) > 100
-            ):  # You can adjust this value based on your needs
+            if len(paragraph.text) > 100:  # You can adjust this value based on your needs
                 return self.clean_text(paragraph.text)
 
         return None
@@ -51,6 +51,8 @@ class WikipediaScraper:
         text = re.sub(r"\b\d{4}\b", "", text)
         # Remove \"
         text = re.sub(r"\"", "", text)
+        # Remove pattern like [1]
+        text = re.sub(r'\[\d+\]', '', text)
         return text.strip()
 
     def to_json_file(self, filepath):
