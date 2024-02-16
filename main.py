@@ -1,4 +1,4 @@
-0from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor
 from src.scraper import WikipediaScraper
 
 
@@ -32,4 +32,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
