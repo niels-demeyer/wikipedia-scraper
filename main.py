@@ -1,4 +1,4 @@
-from concurrent.futures import ThreadPoolExecutor
+0from concurrent.futures import ThreadPoolExecutor
 from src.scraper import WikipediaScraper
 
 
@@ -13,7 +13,7 @@ def main():
     scraper = WikipediaScraper()
     countries = scraper.get_countries()
 
-    for country in countries:
+    for country in countries:+
         scraper.get_leaders(country)
 
     # use the wikipedia scraper to get the first paragraph of the wikipedia page for each leader
