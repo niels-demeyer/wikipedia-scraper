@@ -2,14 +2,10 @@ from concurrent.futures import ThreadPoolExecutor
 from src.scraper import WikipediaScraper
 
 
-def fetch_leader_data(scraper, leader):
-    leader["wikipedia_first_paragraph"] = scraper.get_first_paragraph(
-        leader["wikipedia_url"]
-    )
-    return leader
-
-
 def main():
+    """
+    Main function that orchestrates the scraping process.
+    """
     scraper = WikipediaScraper()
     countries = scraper.get_countries()
 
@@ -20,15 +16,17 @@ def main():
     with ThreadPoolExecutor(max_workers=10) as executor:
         for country, leaders in scraper.leaders_data.items():
             futures = [
-                executor.submit(fetch_leader_data, scraper, leader)
-                for leader in leaders
+                executor.submit(scraper.fetch_leader_data, leader) for leader in leaders
             ]
             scraper.leaders_data[country] = [future.result() for future in futures]
 
-    # save the results to a json file
+    # save the results to a json file and a csv file
     scraper.to_json_file("leaders.json")
     scraper.save_to_csv("leaders.csv")
 
 
 if __name__ == "__main__":
+    """
+    Entry point of the script. Calls the main function.
+    """
     main()

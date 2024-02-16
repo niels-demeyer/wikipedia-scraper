@@ -52,6 +52,21 @@ class WikipediaScraper:
 
         return None
 
+    def fetch_leader_data(self, leader: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Fetches the first paragraph of the Wikipedia page for a given leader.
+
+        Parameters:
+        leader (dict): The leader data.
+
+        Returns:
+        dict: The updated leader data with the first paragraph of the Wikipedia page.
+        """
+        leader["wikipedia_first_paragraph"] = self.get_first_paragraph(
+            leader["wikipedia_url"]
+        )
+        return leader
+
     def clean_text(self, text: str) -> str:
         # Remove pronunciation
         text = re.sub(r"\(.*?\)", "", text)
