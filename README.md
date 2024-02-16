@@ -28,8 +28,7 @@
 ---
 
 ##  Overview
-This repository uses [this API](https://country-leaders.onrender.com/docs) to fetch some data about leaders of different countries. After that it uses beautifulsoup to fetch the first paragraph of said leaders wikipedia page.
-
+This repository leverages the [this API](https://country-leaders.onrender.com/docs) to retrieve information about various country leaders. Subsequently, it employs BeautifulSoup to extract the first paragraph from each leader's Wikipedia page.
 
 
 ---
