@@ -173,8 +173,3 @@ Once your PR is reviewed and approved, it will be merged into the main branch.
 
 ##  Acknowledgments
 This project was an asignment for the BeCode ai bootcamp.
-- List any resources, contributors, inspiration, etc. here.
-
-[**Return**](#-quick-links)
-
----
