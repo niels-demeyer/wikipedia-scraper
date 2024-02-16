@@ -92,7 +92,7 @@ This project was made during my time at BeCode and these where the requirements
 
 | File                                                                                        | Summary                         |
 | ---                                                                                         | ---                             |
-| [scraper.py](https://github.com/niels-demeyer/wikipedia-scraper/blob/master/src/scraper.py) | <code>► INSERT-TEXT-HERE</code> |
+| [scraper.py](https://github.com/niels-demeyer/wikipedia-scraper/blob/master/src/scraper.py) | <code>► Stores the `WikipediaScraper` class </code> |
 
 </details>
 
